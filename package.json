@@ -1,0 +1,34 @@
+{
+  "name": "jspf",
+  "version": "0.0.1",
+  "description": "JSON XSPF Node module",
+  "keywords": [
+    "xspf",
+    "jspf",
+    "playlist"
+  ],
+  "homepage": "https://github.com/kobe1980/jspf",
+  "bugs": {
+    "url": "https://github.com/kobe1980/jspf/issues"
+  },
+  "author": {
+    "name": "kobe1980",
+    "email": "kobe1980@gmail.com"
+  },
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kobe1980/jspf.git"
+  },
+  "_npmUser": {
+    "name": "kobe1980",
+    "email": "kobe1980@gmail.com"
+  }
+}
