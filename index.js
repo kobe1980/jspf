@@ -129,7 +129,7 @@ jspf.prototype.getTrack = function() {
 	return this.track;
 }
 
-jspf.prototype.getTrack(trackId) {
+jspf.prototype.getTrack = function(trackId) {
 	return this.track[trackId];
 }
 
@@ -151,7 +151,7 @@ jspf.prototype.addTrack = function(location, identifier, title, creator, annotat
 	});
 }
 
-jspf.prototype.toString() {
+jspf.prototype.toString = function() {
 	return JSON.stringify(this);
 }
 
