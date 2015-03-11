@@ -1,7 +1,7 @@
 {
   "name": "jspf",
   "version": "0.0.1",
-  "description": "JSON XSPF Node module",
+  "description": "JSON XSPF Node module. See http://www.xspf.org/jspf/ for more details.",
   "keywords": [
     "xspf",
     "jspf",
