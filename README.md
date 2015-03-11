@@ -33,5 +33,6 @@ var jspf = require('jspf');
  * @param Array meta
  * @param Array extension
  * @param Array track
+ */
 var playlist = new jspf(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track);
 ```
