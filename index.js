@@ -341,7 +341,21 @@ Jspf.prototype.loadFromDisk = function(path, callback) {
 		if (err) return callback(true, "Could not open File.", err);
 		var o = JSON.parse(data);
 		if (!jspf.parsable(o)) return callback(true, "Object stored in file is not a JSPF playlist");
-		jspf = new Jspf(o.title, o.creator, o.annotation, o.info, o.location, o.identifier, o.image, o.date, o.license, o.attribution, o.link, o.meta, o.extension, o.track);
+		jspf.setTitle(o["title"]);
+		jspf.setCreator(o["creator"]);
+		jspf.setAnnotation(o["annotation"]);
+		jspf.setInfo(o["info"]);
+		jspf.setLocation(o["location"]);
+		jspf.setIdentifier(o["identifier"]);
+		jspf.setImage(o["image"]);
+		jspf.setDate(o["date"]);
+		jspf.setLicense(o["license"]);
+		jspf.setAttribution(o["attribution"]);
+		jspf.setLink(o["link"]);
+		jspf.setMeta(o["meta"]);
+		jspf.setExtension(o["extension"]);
+		jspf.setTrack(o["track"]);
+		
 		return callback(false, "Playlist loaded successfully", "");	
 	});
 };
