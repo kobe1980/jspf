@@ -1,3 +1,5 @@
+var util = require('util');
+
 function jspf(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track) {
 	this.title = title || "";
 	this.creator = creator || "";
@@ -16,7 +18,9 @@ function jspf(title, creator, annotation, info, location, identifier, image, dat
 }
 
 jspf.prototype.setTitle = function(title) {
+	if (!util.isString(title)) return false;
 	this.title = title;
+	return true;
 };
 
 jspf.prototype.getTitle = function() {
@@ -24,7 +28,9 @@ jspf.prototype.getTitle = function() {
 };
 
 jspf.prototype.setCreator = function(creator) {
+	if (!util.isString(creator)) return false;
 	this.creator = creator;
+	return true;
 };
 
 jspf.prototype.getCreator = function() {
@@ -32,7 +38,9 @@ jspf.prototype.getCreator = function() {
 };
 
 jspf.prototype.setAnnotation = function(annotation) {
+	if (!util.isString(annotation)) return false;
 	this.annotation = annotation;
+	return true;
 };
 
 jspf.prototype.getAnnotation = function() {
@@ -40,7 +48,9 @@ jspf.prototype.getAnnotation = function() {
 };
 
 jspf.prototype.setInfo = function(info) {
+	if (!util.isString(info)) return false;
 	this.info = info;
+	return true;
 };
 
 jspf.prototype.getInfo = function() {
@@ -48,7 +58,9 @@ jspf.prototype.getInfo = function() {
 };
 
 jspf.prototype.setLocation = function(location) {
+	if (!util.isString(location)) return false;
 	this.location = location;
+	return true;
 };
 
 jspf.prototype.getLocation = function() {
@@ -56,7 +68,9 @@ jspf.prototype.getLocation = function() {
 };
 
 jspf.prototype.setIdentifier = function(identifier) {
+	if (!util.isString(identifier)) return false;
 	this.identifier = identifier;
+	return true;
 };
 
 jspf.prototype.getIdentifier = function() {
@@ -64,7 +78,9 @@ jspf.prototype.getIdentifier = function() {
 };
 
 jspf.prototype.setImage = function(image) {
+	if (!util.isString(image)) return false;
 	this.image = image;
+	return true;
 };
 
 jspf.prototype.getImage = function() {
@@ -72,7 +88,9 @@ jspf.prototype.getImage = function() {
 };
 
 jspf.prototype.setDate = function(date) {
+	if (!util.isString(date) && ! util.isDate(date)) return false;
 	this.date = date;
+	return true;
 };
 
 jspf.prototype.getDate = function() {
@@ -80,7 +98,9 @@ jspf.prototype.getDate = function() {
 };
 
 jspf.prototype.setLicense = function(license) {
+	if (!util.isString(license)) return false;
 	this.license = license;
+	return true;
 };
 
 jspf.prototype.getLicense = function() {
@@ -88,7 +108,9 @@ jspf.prototype.getLicense = function() {
 };
 
 jspf.prototype.setAttribution = function(attribution) {
+	if (!util.isArray(attribution)) return false;
 	this.attribution = attribution;
+	return true;
 };
 
 jspf.prototype.getAttribution = function() {
@@ -96,7 +118,9 @@ jspf.prototype.getAttribution = function() {
 };
 
 jspf.prototype.setLink = function(link) {
+	if (!util.isArray(link)) return false;
 	this.link = link;
+	return true;
 };
 
 jspf.prototype.getLink = function() {
@@ -104,7 +128,9 @@ jspf.prototype.getLink = function() {
 };
 
 jspf.prototype.setMeta = function(meta) {
+	if (!util.isArray(meta)) return false;
 	this.meta = meta;
+	return true;
 };
 
 jspf.prototype.getMeta = function() {
@@ -112,7 +138,9 @@ jspf.prototype.getMeta = function() {
 };
 
 jspf.prototype.setExtension = function(extension) {
+	if (!util.isArray(extension)) return false;
 	this.extension = extension;
+	return true;
 };
 
 jspf.prototype.getExtension = function() {
@@ -120,14 +148,16 @@ jspf.prototype.getExtension = function() {
 };
 
 jspf.prototype.setTrack = function(track) {
+	if (!util.isArray(track)) return false;
 	this.track = track;
+	return true;
 };
 
 jspf.prototype.getTrack = function() {
 	return this.track;
 };
 
-jspf.prototype.getTrack = function(trackId) {
+jspf.prototype.getTrackById = function(trackId) {
 	return this.track[trackId];
 };
 
@@ -147,58 +177,85 @@ jspf.prototype.addTrack = function(location, identifier, title, creator, annotat
 		"meta": meta,
 		"extension": extension
 	});
+	return true;
 };
 
 jspf.prototype.setTrackLocation = function(trackId, location) {
-    this.track[trackId]["location"] = location;
+	if (!util.isNumber(trackId) || !util.isString(location) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["location"] = location;
+	return true;
 };
 
 jspf.prototype.setTrackIdentifier = function(trackId, identifier) {
-    this.track[trackId]["identifier"] = identifier;
+	if (!util.isNumber(trackId) || !util.isString(identifier) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["identifier"] = identifier;
+	return true;
 };
 
 jspf.prototype.setTrackTitle = function(trackId, title) {
-    this.track[trackId]["title"] = title;
+	if (!util.isNumber(trackId) || !util.isString(title) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["title"] = title;
+	return true;
 };
 
 jspf.prototype.setTrackCreator = function(trackId, creator) {
-    this.track[trackId]["creator"] = creator;
+	if (!util.isNumber(trackId) || !util.isString(creator) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["creator"] = creator;
+	return true;
 };
 
 jspf.prototype.setTrackAnnotation = function(trackId, annotation) {
-    this.track[trackId]["annotation"] = annotation;
+	if (!util.isNumber(trackId) || !util.isString(annotation) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["annotation"] = annotation;
+	return true;
 };
 
 jspf.prototype.setTrackInfo = function(trackId, info) {
-    this.track[trackId]["info"] = info;
+	if (!util.isNumber(trackId) || !util.isString(info) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["info"] = info;
+	return true;
 };
 
 jspf.prototype.setTrackImage = function(trackId, image) {
-    this.track[trackId]["image"] = image;
+	if (!util.isNumber(trackId) || !util.isString(image) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["image"] = image;
+	return true;
 };
 
 jspf.prototype.setTrackAlbum= function(trackId, album) {
-    this.track[trackId]["album"] = album;
+	if (!util.isNumber(trackId) || !util.isString(album) || trackId > this.track.length || trackId < 0) return false;
+   	this.track[trackId]["album"] = album;
+	return true;
 };
 
 jspf.prototype.setTrackTrackNum = function(trackId, trackNum) {
-    this.track[trackId]["trackNum"] = trackNum;
+	if (!util.isNumber(trackId) || !util.isNumber(trackNum) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["trackNum"] = trackNum;
+	return true;
 };
 
 jspf.prototype.setTrackDuration = function(trackId, duration) {
-    this.track[trackId]["duration"] = duration;
+	if (!util.isNumber(trackId) || !util.isNumber(duration) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["duration"] = duration;
+	return true;
 };
 
 jspf.prototype.setTrackLink = function(trackId, link) {
-    this.track[trackId]["link"] = link;
+	if (!util.isNumber(trackId) || !util.isArray(link) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["link"] = link;
+	return true;
 };
 
 jspf.prototype.setTrackMeta = function(trackId, meta) {
-    this.track[trackId]["meta"] = meta;
+	if (!util.isNumber(trackId) || !util.isArray(meta) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["meta"] = meta;
+	return true;
 };
 
 jspf.prototype.setTrackExtension = function(trackId, extension) {
-    this.track[trackId]["extension"] = extension;
+	if (!util.isNumber(trackId) || !util.isObject(extension) || trackId > this.track.length || trackId < 0) return false;
+    	this.track[trackId]["extension"] = extension;
+	return true;
 };
 
 jspf.prototype.toString = function() {
