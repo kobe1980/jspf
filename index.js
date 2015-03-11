@@ -283,6 +283,69 @@ Jspf.prototype.toString = function() {
 	return JSON.stringify(this);
 };
 
+Jspf.prototype.isJspf = function(arg) {
+	if (!util.isObject(arg)) return false;
+	return arg instanceof Jspf;
+};
+
+Jspf.prototype.isParsableTrack = function(arg) {
+	if (!util.isArray(arg)) return false;
+	var t = new Track();
+	for (var i in arg) {
+		if (!t.parsable(arg[i])) return false;
+	}
+	return true;
+};
+
+Jspf.prototype.parsable = function(arg) {
+	if (!util.isObject(arg)) return false;
+	if (
+		arg["title"]!=null && util.isString(arg["title"]) &&
+		arg["creator"]!=null && util.isString(arg["creator"]) &&
+		arg["annotation"]!=null && util.isString(arg["annotation"]) &&
+		arg["info"]!=null && util.isString(arg["info"]) &&
+		arg["location"]!=null && util.isString(arg["location"]) &&
+		arg["identifier"]!=null && util.isString(arg["identifier"]) &&
+		arg["image"]!=null && util.isString(arg["image"]) &&
+		arg["date"]!=null && (util.isString(arg["date"]) || util.isDate(arg["date"]))&&
+		arg["license"]!=null && util.isString(arg["license"]) &&
+		arg["attribution"]!=null && util.isArray(arg["attribution"]) &&
+		arg["link"]!=null && util.isArray(arg["link"]) &&
+		arg["meta"]!=null && util.isArray(arg["meta"]) &&
+		arg["extension"]!=null && util.isObject(arg["extension"]) &&
+		arg["track"]!=null && this.isParsableTrack(arg["track"])) return true;
+	console.log("jspf not parsable");
+	return false;
+};
+
+/* 
+ * @param path - path of the file in which the playlist is stored
+ * @param callback - callback called when finished or when an error occure. Params are boolean is_error, string msg, Error err.
+ */
+Jspf.prototype.saveToDisk = function(path, callback) {
+	var fs = require('fs');
+	var jspf = this;
+	fs.open(path, 'w', function(err, fd) {
+		if (err) return callback(true, "Could not open File.", err);
+		fs.write(fd, jspf.toString(), 0, 'utf8', function(err, written, string) {
+			if (err) return callback(true, "Could not write to file", err);
+			return callback(false, "File written successfully");
+		}); 
+	});
+};
+
+Jspf.prototype.loadFromDisk = function(path, callback) {
+	var fs = require('fs');
+	var jspf = this;
+	fs.readFile(path, function(err, data) {
+		if (err) return callback(true, "Could not open File.", err);
+		var o = JSON.parse(data);
+		if (!jspf.parsable(o)) return callback(true, "Object stored in file is not a JSPF playlist");
+		jspf = new Jspf(o.title, o.creator, o.annotation, o.info, o.location, o.identifier, o.image, o.date, o.license, o.attribution, o.link, o.meta, o.extension, o.track);
+		return callback(false, "Playlist loaded successfully", "");	
+	});
+};
+
 function Track(location, identifier, title, creator, annotation, info, image, album, trackNum, duration, link, meta, extension) {
 	this.location = location || "";
 	this.identifier = identifier || "";
@@ -416,9 +479,29 @@ Track.prototype.getExtension = function() {
 	return this.extension;
 };
 
-Track.prototype.isTrack = function(track) {
-	if (!util.isObject(track)) return false;
-	return track instanceof Track;
+Track.prototype.isTrack = function(arg) {
+	if (!util.isObject(arg)) return false;
+	return arg instanceof Track;
+};
+
+Track.prototype.parsable = function(arg) {
+	if (!util.isObject(arg)) return false;
+	if (
+		arg["location"]!=null && util.isString(arg["location"]) &&
+		arg["identifier"]!=null && util.isString(arg["identifier"]) &&
+		arg["title"]!=null && util.isString(arg["title"]) &&
+		arg["creator"]!=null && util.isString(arg["creator"]) &&
+		arg["annotation"]!=null && util.isString(arg["annotation"]) &&
+		arg["info"]!=null && util.isString(arg["info"]) &&
+		arg["image"]!=null && util.isString(arg["image"]) &&
+		arg["album"]!=null && util.isString(arg["album"]) && 
+		arg["trackNum"]!=null && util.isNumber(arg["trackNum"]) &&
+		arg["duration"]!=null && util.isNumber(arg["duration"]) &&
+		arg["link"]!=null && util.isArray(arg["link"]) &&
+		arg["meta"]!=null && util.isArray(arg["meta"]) &&
+		arg["extension"]!=null && util.isObject(arg["extension"])) return true;
+	console.log("track not parsable");
+	return false;
 };
 
 Track.prototype.toString = function() {
@@ -427,4 +510,3 @@ Track.prototype.toString = function() {
 
 module.exports = Track;
 module.exports = Jspf;
-
