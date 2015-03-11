@@ -1,4 +1,15 @@
 var util = require('util');
+util.isObject = function(arg) {
+	return typeof arg === 'object' && arg !== null;
+};
+
+util.isString = function(arg) {
+	return typeof arg === 'string';
+};
+
+util.isNumber = function(arg) {
+	return typeof arg === 'number';
+};
 
 function Jspf(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track) {
 	this.title = title || "";
@@ -148,7 +159,8 @@ Jspf.prototype.getExtension = function() {
 };
 
 Jspf.prototype.setTrack = function(track) {
-	if (!util.isArray(track)) return false;
+	var j = new Jspf();
+	if (!util.isArray(track) && !j.isTrack(track)) return false;
 	this.track = track;
 	return true;
 };
@@ -163,8 +175,9 @@ Jspf.prototype.getTrackById = function(trackId) {
 
 Jspf.prototype.isTrack = function(track) {
 	if (!util.isArray(track)) return false;
+	var t = new Trac();
 	for (var i in track) {
-		if (!track[i].isTrack()) return false;
+		if (!t.isTrack(track[i])) return false;
 	}
 	return true;
 };
@@ -287,6 +300,7 @@ function Track(location, identifier, title, creator, annotation, info, image, al
 }
 
 Track.prototype.setLocation = function(location) {
+	if (!util.isString(location)) return false;
 	this.location = location;
 };
 
@@ -295,6 +309,7 @@ Track.prototype.getLocation = function() {
 };
 
 Track.prototype.setIdentifier = function(identifier) {
+	if (!util.isString(identifier)) return false;
 	this.identifier = identifier;
 };
 
@@ -303,6 +318,7 @@ Track.prototype.getIdentifier = function() {
 };
 
 Track.prototype.setTitle = function(title) {
+	if (!util.isString(title)) return false;
 	this.title = title;
 };
 
@@ -311,6 +327,7 @@ Track.prototype.getTitle = function() {
 };
 
 Track.prototype.setCreator = function(creator) {
+	if (!util.isString(creator)) return false;
 	this.creator = creator;
 };
 
@@ -319,6 +336,7 @@ Track.prototype.getCreator = function() {
 };
 
 Track.prototype.setAnnotation = function(annotation) {
+	if (!util.isString(annotation)) return false;
 	this.annotation = annotation;
 };
 
@@ -327,6 +345,7 @@ Track.prototype.getAnnotation = function() {
 };
 
 Track.prototype.setInfo = function(info) {
+	if (!util.isString(info)) return false;
 	this.info = info;
 };
 
@@ -335,6 +354,7 @@ Track.prototype.getInfo = function() {
 };
 
 Track.prototype.setImage = function(image) {
+	if (!util.isString(image)) return false;
 	this.image = image;
 };
 
@@ -343,6 +363,7 @@ Track.prototype.getImage = function() {
 };
 
 Track.prototype.setAlbum = function(album) {
+	if (!util.isString(album)) return false;
 	this.album = album;
 };
 
@@ -351,6 +372,7 @@ Track.prototype.getAlbum = function() {
 };
 
 Track.prototype.setTrackNum = function(trackNum) {
+	if (!util.isNumber(trackNum)) return false;
 	this.trackNum = trackNum;
 };
 
@@ -359,6 +381,7 @@ Track.prototype.getTrackNum = function() {
 };
 
 Track.prototype.setDuration = function(duration) {
+	if (!util.isNumber(duration)) return false;
 	this.duration = duration;
 };
 
@@ -367,6 +390,7 @@ Track.prototype.getDuration = function() {
 };
 
 Track.prototype.setLink = function(link) {
+	if (!util.isArray(link)) return false;
 	this.link = link;
 };
 
@@ -375,6 +399,7 @@ Track.prototype.getLink = function() {
 };
 
 Track.prototype.setMeta = function(meta) {
+	if (!util.isArray(meta)) return false;
 	this.meta = meta;
 };
 
@@ -383,6 +408,7 @@ Track.prototype.getMeta = function() {
 };
 
 Track.prototype.setExtension = function(extension) {
+	if (!util.isObject(extension)) return false;
 	this.extension = extension;
 };
 
@@ -391,7 +417,8 @@ Track.prototype.getExtension = function() {
 };
 
 Track.prototype.isTrack = function(track) {
-	console.log(Object.prototype.toString.call(track));
+	if (!util.isObject(track)) return false;
+	return track instanceof Track;
 };
 
 Track.prototype.toString = function() {
