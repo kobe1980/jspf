@@ -1,4 +1,4 @@
-var jspf = function(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track) {
+function jspf(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track) {
 	this.title = title || "";
 	this.creator = creator || "";
 	this.annotation = annotation || "";
@@ -13,11 +13,7 @@ var jspf = function(title, creator, annotation, info, location, identifier, imag
 	this.meta = meta || Array();
 	this.extension = extension || Array();
 	this.track = track || Array();
-
-	return this;
-};
-
-module.exports.jspf = jspf;
+}
 
 jspf.prototype.setTitle = function(title) {
 	this.title = title;
@@ -207,4 +203,6 @@ jspf.prototype.setTrackExtension = function(trackId, extension) {
 
 jspf.prototype.toString = function() {
 	return JSON.stringify(this);
- };
+};
+
+module.exports = jspf;
