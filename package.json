@@ -1,6 +1,6 @@
 {
   "name": "jspf",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "JSON XSPF Node module. See http://www.xspf.org/jspf/ for more details.",
   "keywords": [
     "xspf",
@@ -19,6 +19,8 @@
     "node": ">=0.4.0"
   },
   "dependencies": {
+	"should": ">=5.2.0",
+	"Mocha": ">=2.2.1"
   },
   "devDependencies": {
   },

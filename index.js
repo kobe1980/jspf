@@ -314,7 +314,6 @@ Jspf.prototype.parsable = function(arg) {
 		arg["meta"]!=null && util.isArray(arg["meta"]) &&
 		arg["extension"]!=null && util.isObject(arg["extension"]) &&
 		arg["track"]!=null && this.isParsableTrack(arg["track"])) return true;
-	console.log("jspf not parsable");
 	return false;
 };
 
@@ -369,16 +368,17 @@ function Track(location, identifier, title, creator, annotation, info, image, al
 	this.info = info || "";
 	this.image = image || "";
 	this.album = album || "";
-	this.trackNum = trackNum;
-	this.duration = duration;
+	this.trackNum = trackNum || 0;
+	this.duration = duration || 0;
 	this.link = link || Array();
 	this.meta = meta || Array();
-	this.extension = extension || Array();
+	this.extension = extension || {};
 }
 
 Track.prototype.setLocation = function(location) {
 	if (!util.isString(location)) return false;
 	this.location = location;
+	return true;
 };
 
 Track.prototype.getLocation = function() {
@@ -388,6 +388,7 @@ Track.prototype.getLocation = function() {
 Track.prototype.setIdentifier = function(identifier) {
 	if (!util.isString(identifier)) return false;
 	this.identifier = identifier;
+	return true;
 };
 
 Track.prototype.getIdentifier = function() {
@@ -397,6 +398,7 @@ Track.prototype.getIdentifier = function() {
 Track.prototype.setTitle = function(title) {
 	if (!util.isString(title)) return false;
 	this.title = title;
+	return true;
 };
 
 Track.prototype.getTitle = function() {
@@ -406,6 +408,7 @@ Track.prototype.getTitle = function() {
 Track.prototype.setCreator = function(creator) {
 	if (!util.isString(creator)) return false;
 	this.creator = creator;
+	return true;
 };
 
 Track.prototype.getCreator = function() {
@@ -415,6 +418,7 @@ Track.prototype.getCreator = function() {
 Track.prototype.setAnnotation = function(annotation) {
 	if (!util.isString(annotation)) return false;
 	this.annotation = annotation;
+	return true;
 };
 
 Track.prototype.getAnnotation = function() {
@@ -424,6 +428,7 @@ Track.prototype.getAnnotation = function() {
 Track.prototype.setInfo = function(info) {
 	if (!util.isString(info)) return false;
 	this.info = info;
+	return true;
 };
 
 Track.prototype.getInfo = function() {
@@ -433,6 +438,7 @@ Track.prototype.getInfo = function() {
 Track.prototype.setImage = function(image) {
 	if (!util.isString(image)) return false;
 	this.image = image;
+	return true;
 };
 
 Track.prototype.getImage = function() {
@@ -442,6 +448,7 @@ Track.prototype.getImage = function() {
 Track.prototype.setAlbum = function(album) {
 	if (!util.isString(album)) return false;
 	this.album = album;
+	return true;
 };
 
 Track.prototype.getAlbum = function() {
@@ -451,6 +458,7 @@ Track.prototype.getAlbum = function() {
 Track.prototype.setTrackNum = function(trackNum) {
 	if (!util.isNumber(trackNum)) return false;
 	this.trackNum = trackNum;
+	return true;
 };
 
 Track.prototype.getTrackNum = function() {
@@ -460,6 +468,7 @@ Track.prototype.getTrackNum = function() {
 Track.prototype.setDuration = function(duration) {
 	if (!util.isNumber(duration)) return false;
 	this.duration = duration;
+	return true;
 };
 
 Track.prototype.getDuration = function() {
@@ -469,6 +478,7 @@ Track.prototype.getDuration = function() {
 Track.prototype.setLink = function(link) {
 	if (!util.isArray(link)) return false;
 	this.link = link;
+	return true;
 };
 
 Track.prototype.getLink = function() {
@@ -478,6 +488,7 @@ Track.prototype.getLink = function() {
 Track.prototype.setMeta = function(meta) {
 	if (!util.isArray(meta)) return false;
 	this.meta = meta;
+	return true;
 };
 
 Track.prototype.getMeta = function() {
@@ -487,6 +498,7 @@ Track.prototype.getMeta = function() {
 Track.prototype.setExtension = function(extension) {
 	if (!util.isObject(extension)) return false;
 	this.extension = extension;
+	return true;
 };
 
 Track.prototype.getExtension = function() {
@@ -514,7 +526,6 @@ Track.prototype.parsable = function(arg) {
 		arg["link"]!=null && util.isArray(arg["link"]) &&
 		arg["meta"]!=null && util.isArray(arg["meta"]) &&
 		arg["extension"]!=null && util.isObject(arg["extension"])) return true;
-	console.log("track not parsable");
 	return false;
 };
 
@@ -522,5 +533,5 @@ Track.prototype.toString = function() {
 	return JSON.stringify(this);
 };
 
-module.exports = Track;
-module.exports = Jspf;
+module.exports.Track = Track;
+module.exports.Jspf = Jspf;
