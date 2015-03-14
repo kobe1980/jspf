@@ -201,6 +201,23 @@ Jspf.prototype.addTrack = function(location, identifier, title, creator, annotat
 	return true;
 };
 
+Jspf.prototype.pushTrack = function(track) {
+	var t = new Track();
+	if (!t.isTrack(track)) return false;
+	this.track.push(track);
+	return true;
+};
+
+Jspf.prototype.removeTrack = function(track) {
+	var t = new Track();
+	if (!t.isTrack(track)) return false;
+	for (var i in this.track) {
+		if (this.track[i].compare(track)) {this.track.splice(i, 1);
+		break;
+	}
+	return true;	
+}
+
 Jspf.prototype.setTrackLocation = function(trackId, location) {
 	if (!util.isNumber(trackId) || !util.isString(location) || trackId > this.track.length || trackId < 0) return false;
     	this.track[trackId].setLocation(location);
@@ -510,6 +527,26 @@ Track.prototype.isTrack = function(arg) {
 	return arg instanceof Track;
 };
 
+Track.prototype.compare = function(track) {
+	if (!this.isTrack(track)) return false;
+	if (
+		this.location == track.location &&
+		this.identifier == track.identifier &&
+		this.title == track.title &&
+		this.creator == track.creator &&
+		this.annotation == track.annotation &&
+		this.info == track.info &&
+		this.image == track.image &&
+		this.album == track.album &&
+		this.trackNum == track.trackNum &&
+		this.duration == track.duration &&
+		arrayCompare(this.link, track.link) &&
+		arrayCompare(this.meta, track.meta) &&
+		objectCompare(this.extension, track.extension)) return true;
+	return false;
+	
+}
+
 Track.prototype.parsable = function(arg) {
 	if (!util.isObject(arg)) return false;
 	if (
@@ -535,3 +572,79 @@ Track.prototype.toString = function() {
 
 module.exports.Track = Track;
 module.exports.Jspf = Jspf;
+
+// attach the .equals method to Array's prototype to call it on any array
+function arrayCompare(array, array2) {
+	// if the other array is a falsy value, return
+        if (!array || !array2)
+		return false;
+                
+	// compare lengths - can save a lot of time 
+	if (array.length != array2.length)
+		return false;
+                                
+	for (var i = 0, l=array.length; i < l; i++) {
+		// Check if we have nested arrays
+		if (array[i] instanceof Array && array2[i] instanceof Array) {
+			// recurse into the nested arrays
+			if (!array[i].equals(array2[i]))
+				return false;       
+		}           
+		else if (array[i] != array2[i]) { 
+			// Warning - two different object instances will never be equal: {x:20} != {x:20}
+			return false;   
+		}           
+	}       
+	return true;
+};
+
+function objectCompare(object, object2) {
+	//For the first loop, we only check for types
+	for (propName in object) {
+		//Check for inherited methods and properties - like .equals itself
+		//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/hasOwnProperty
+		//Return false if the return value is different
+		if (object.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
+			return false;
+		}
+		//Check instance type
+        	else if (typeof object[propName] != typeof object2[propName]) {
+			//Different types => not equal
+			return false;
+		}
+	}
+	//Now a deeper check using other objects property names
+	for (propName in object2) {
+		//We must check instances anyway, there may be a property that only exists in object2
+		//I wonder, if remembering the checked values from the first loop would be faster or not 
+		if (object.hasOwnProperty(propName) != object2.hasOwnProperty(propName)) {
+			return false;
+		}
+		else if (typeof object[propName] != typeof object2[propName]) {
+			return false;
+		}
+		//If the property is inherited, do not check any more (it must be equa if both objects inherit it)
+		if (!object.hasOwnProperty(propName))
+			continue;
+                                                                                       
+		//Now the detail check and recursion
+                                                                                        
+		//This returns the script back to the array comparing
+		if (object[propName] instanceof Array && object2[propName] instanceof Array) {
+			// recurse into the nested arrays
+			if (!object[propName].equals(object2[propName]))
+				return false;
+		}
+		else if (object[propName] instanceof Object && object2[propName] instanceof Object) {
+			// recurse into another objects
+			if (!object[propName].equals(object2[propName]))
+				return false;
+		}
+		//Normal value comparison for strings and numbers
+		else if(object[propName] != object2[propName]) {
+			return false;
+		}
+	}
+	//If everything passed, let's say YES
+        return true;
+}; 

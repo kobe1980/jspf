@@ -197,6 +197,14 @@ describe("Track Methods", function() {
 		t.location.should.be.a.String.and.equal("");
 		done();
 	});
+	it("Can compare two tracks", function(done) {
+		var t = new jspf.Track();
+		var t2 = new jspf.Track();
+		t.compare(t2).should.equal(true);
+		t2.setTitle("Thriller");
+		t.compare(t2).should.equal(false);
+		done();
+	});
 });
 
 describe("Jsfp Methods", function() {
