@@ -1,7 +1,7 @@
 # jspf
 
 This is a JSPF playlist object.
-See JSPF specifications on [XSPF web site] (http://www.xspf.org/jspf/)
+See JSPF specifications on [XSPF web site](http://www.xspf.org/jspf/)
 
 ### Usage
 
@@ -11,7 +11,7 @@ Then
 
 ```node
 var jspf = require('jspf');
-var playlist = new jspf();
+var playlist = new jspf.Jspf();
 ```
 
 You Can also create the playlist with arguments
@@ -31,8 +31,8 @@ var jspf = require('jspf');
  * @param Array attribution
  * @param Array link
  * @param Array meta
- * @param Array extension
+ * @param Object extension
  * @param Array track
  */
-var playlist = new jspf(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track);
+var playlist = new jspf.Jspf(title, creator, annotation, info, location, identifier, image, date, license, attribution, link, meta, extension, track);
 ```
