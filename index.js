@@ -212,11 +212,11 @@ Jspf.prototype.removeTrack = function(track) {
 	var t = new Track();
 	if (!t.isTrack(track)) return false;
 	for (var i in this.track) {
-		if (this.track[i].compare(track)) {this.track.splice(i, 1);
+		if (this.track[i].compare(track)) this.track.splice(i, 1);
 		break;
 	}
 	return true;	
-}
+};
 
 Jspf.prototype.setTrackLocation = function(trackId, location) {
 	if (!util.isNumber(trackId) || !util.isString(location) || trackId > this.track.length || trackId < 0) return false;
@@ -375,6 +375,7 @@ Jspf.prototype.loadFromDisk = function(path, callback) {
 		return callback(false, "Playlist loaded successfully", "");	
 	});
 };
+ 
 
 function Track(location, identifier, title, creator, annotation, info, image, album, trackNum, duration, link, meta, extension) {
 	this.location = location || "";
